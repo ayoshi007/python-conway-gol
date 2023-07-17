@@ -1,5 +1,7 @@
 # Conway's Game of Life in Python
-An implementation of Conway's Game of Life in Python Tkinter.
+An implementation of Conway's Game of Life in Python Tkinter.  
+Made with Python 3.10
+
 ## Overview
 This is a pedagogical project with the learning goals of:
 - using TOML-based Python build systems
@@ -7,4 +9,4 @@ This is a pedagogical project with the learning goals of:
 - using unit-testing in Python
 - exploring Conway's Game of Life
 
-The project will be made with Python 3.10, as it is the latest stable version of Python at the time of the project's creation.
+
