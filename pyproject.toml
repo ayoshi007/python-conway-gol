@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools >= 58.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "conwaygol"
+version = "0.0.1"
+authors = [
+    { name = "Akihiro Yoshimoto" },
+]
+description = "An implementation of Conway's Game of Life in Python"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 1 - Planning",
+    "Framework :: Pytest",
+    "Intended users :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ayoshi007/python-conway-gol"
+"Development Branch" = "https://github.com/ayoshi007/python-conway-gol/tree/dev"
+"Pull Requests" = "https://github.com/ayoshi007/python-conway-gol/pulls"
+"Issues" = "https://github.com/ayoshi007/python-conway-gol/issues"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib"
+]
+pythonpath = "."
