@@ -9,4 +9,4 @@ This is a pedagogical project with the learning goals of:
 - using unit-testing in Python
 - exploring Conway's Game of Life
 
-
+**Note**: although this is an application and not a package, the TOML file specifies pytest options allowing pytest to use the app's modules
