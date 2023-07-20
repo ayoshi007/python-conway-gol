@@ -3,6 +3,7 @@ import numpy as np
 ALIVE_SUM = 3
 NO_CHANGE_SUM = 4
 
+
 def step(state: np.ndarray, successor: np.ndarray, m: int, n: int) -> None:
     field_sum = 0
     for r in range(m):
@@ -16,6 +17,7 @@ def step(state: np.ndarray, successor: np.ndarray, m: int, n: int) -> None:
 def get_field_sum(grid: np.ndarray, neighborhood: list[int]) -> int:
     return sum([grid[r, c] for r, c in neighborhood])
 
+
 def get_neighborhood(row: int, col: int, m: int, n: int) -> list[int]:
     arr = []
     arr.append(
@@ -24,7 +26,8 @@ def get_neighborhood(row: int, col: int, m: int, n: int) -> list[int]:
         [row + 1,   col - 1],   [row + 1,   col],   [row + 1,   col + 1]
     )
     arr = [
-        [m - 1 if r < 0 else (0 if r == m else r), n - 1 if c < 0 else (0 if c == n else c)]
+        [m - 1 if r < 0 else (0 if r == m else r),
+         n - 1 if c < 0 else (0 if c == n else c)]
         for [r, c] in arr
     ]
 
