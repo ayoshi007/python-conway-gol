@@ -1,0 +1,2 @@
+class GridOfLife:
+    pass
