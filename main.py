@@ -1,9 +1,7 @@
-import conway_gol.placeholder as ph
-import ui as ui
+import conway_gol.ui as ui
 
 
 def main():
-    print(ph.greet())
     ui.start()
 
 

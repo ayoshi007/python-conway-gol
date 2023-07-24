@@ -25,10 +25,13 @@ def _get_neighborhood(row: int, col: int, m: int, n: int) -> list[int]:
         [row,       col - 1],   [row,       col],   [row,       col + 1],
         [row + 1,   col - 1],   [row + 1,   col],   [row + 1,   col + 1]
     ])
-    arr = [
-        [m - 1 if r < 0 else (0 if r == m else r),
-         n - 1 if c < 0 else (0 if c == n else c)]
-        for [r, c] in arr
-    ]
+    arr = map(
+        lambda rc:
+        [
+            m - 1 if rc[0] < 0 else (0 if rc[0] == m else rc[0]),
+            n - 1 if rc[1] < 0 else (0 if rc[1] == n else rc[1])
+        ],
+        arr
+    )
 
     return arr
