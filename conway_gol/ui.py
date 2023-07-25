@@ -28,8 +28,8 @@ class UIOfLife:
         self.canvas.pack(anchor=tk.CENTER, expand=True)
 
         self.button_frame = tk.Frame(self.window, relief=tk.RAISED, bg='grey')
-        self.button_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False, padx=5, pady=5)
-        self.button_frame.
+        self.button_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False, padx=2, pady=2)
+
         open_button = tk.Button(self.button_frame, text="Open")
         open_button.pack(side=tk.RIGHT)
         save_button = tk.Button(self.button_frame, text="Save")
