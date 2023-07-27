@@ -1,87 +1,39 @@
-import tkinter as tk
+import io
+import PySimpleGUI as sg
+from PIL import Image
 from conway_gol.grid import GridOfLife
 
 
-class UIOfLife:
-    def __init__(self):
-        self.window = tk.Tk()
-        self.window.title("Conway's Game of Life")
-
-        menu_bar = tk.Menu(self.window)
-        self.window.config(
-            width=800, height=600,
-            menu=menu_bar,
-            background='black'
-        )
-        file_menu = tk.Menu(menu_bar, tearoff=False)
-        file_menu.add_command(label='Load pattern', accelerator='Ctrl+O')
-        file_menu.add_command(label='Save pattern', accelerator='Ctrl+S')
-        file_menu.add_separator()
-        file_menu.add_command(label='Exit', command=self.window.destroy)
-        menu_bar.add_cascade(label='File', menu=file_menu)
-
-        display_menu = tk.Menu(menu_bar, tearoff=False)
-        display_menu.add_command(label='Show buttons', underline=1, accelerator='Ctrl+B')
-        display_menu.add_command(label='Clear', accelerator='Ctrl+C')
-        menu_bar.add_cascade(label='Display', menu=display_menu)
-
-        self.canvas = tk.Canvas(self.window, width=600, height=400, highlightbackground='black', highlightthickness=1)
-        self.canvas.pack(anchor=tk.CENTER, expand=True)
-
-        self.button_frame = tk.Frame(self.window, relief=tk.RAISED, bg='grey')
-        self.button_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False, padx=8, pady=2)
-
-        open_button = tk.Button(self.button_frame, text='Open')
-        open_button.pack(side=tk.RIGHT)
-        save_button = tk.Button(self.button_frame, text='Save')
-        save_button.pack(side=tk.RIGHT)
-        play_pause_button = tk.Button(self.button_frame, text='Play/Pause')
-        play_pause_button.pack(side=tk.RIGHT)
-        step_forward_button = tk.Button(self.button_frame, text='Step forward')
-        step_forward_button.pack(side=tk.RIGHT)
-        step_backward_button = tk.Button(self.button_frame, text='Step backward')
-        step_backward_button.pack(side=tk.RIGHT)
-        clear_button = tk.Button(self.button_frame, text='Clear')
-        clear_button.pack(side=tk.RIGHT)
-        self.speed_var = tk.IntVar(value=10)
-        self.speed_scale = tk.Scale(self.button_frame, label=f'{self.speed_var.get()}/s', showvalue=0, from_=1, to=100, orient=tk.HORIZONTAL, length=75, variable=self.speed_var)
-        def update_label(val):
-            self.speed_scale.config(label=f'{self.speed_var.get()}/s')
-        self.speed_scale.config(command=update_label)
-        self.speed_scale.set(self.speed_var.get())
-        self.speed_scale.pack(side=tk.RIGHT)
-        self.edit_button = tk.Button(self.button_frame, text='Edit')
-        self.edit_button.pack(side=tk.RIGHT)
-
-
-    def load_pattern(self):
-        pass
-
-    def save_pattern(self):
-        pass
-
-    def end_game(self):
-        pass
-
-    def show_buttons(self):
-        pass
-
-    def clear_grid(self):
-        pass
-
-    def toggle_editor(self):
-        pass
-
-    def step_forward(self):
-        pass
-
-    def step_backward(self):
-        pass
-    
-    def start(self):
-        self.window.mainloop()
+button_images = {
+    'Open':             Image.open('conway_gol/resources/open.png').resize(size=(24, 24)),
+    'Save':             Image.open('conway_gol/resources/save.png').resize(size=(24, 24)),
+    'Play':             Image.open('conway_gol/resources/play.png').resize(size=(24, 24)),
+    'Pause':            Image.open('conway_gol/resources/pause.png').resize(size=(24, 24)),
+    'Step forward':     Image.open('conway_gol/resources/step_forward.png').resize(size=(24, 24)),
+    'Step backward':    Image.open('conway_gol/resources/step_backward.png').resize(size=(24, 24)),
+    'Reset':            Image.open('conway_gol/resources/reset.png').resize(size=(24, 24)),
+    'Edit':             Image.open('conway_gol/resources/edit.png').resize(size=(24, 24)),
+}
+button_bytes_ios = {key: io.BytesIO() for key in button_images}
+for key, val in button_images.items():
+    val.save(button_bytes_ios[key], format='PNG')
 
 
 def start():
-    ui = UIOfLife()
-    ui.start()
+    layout = [
+        [sg.Canvas(size=(600, 400), key='canvas', background_color='red')],
+        [
+            sg.Button(image_source=button_bytes_ios['Edit'].getvalue(), pad=(0, 0)),
+            sg.Button(image_source=button_bytes_ios['Reset'].getvalue(), pad=(0, 0)),
+            sg.Button(image_source=button_bytes_ios['Step backward'].getvalue(), pad=(0, 0)),
+            sg.Button(image_source=button_bytes_ios['Play'].getvalue(), pad=(0, 0)),
+            sg.Button(image_source=button_bytes_ios['Step forward'].getvalue(), pad=(0, 0)),
+            sg.Button(image_source=button_bytes_ios['Open'].getvalue(), pad=(0, 0)),
+            sg.Button(image_source=button_bytes_ios['Save'].getvalue(), pad=(0, 0)),
+        ]
+    ]
+    window = sg.Window(title='Conway\'s Game of Life', layout=layout, resizable=True, finalize=True)
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED:
+            break
