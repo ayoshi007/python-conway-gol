@@ -10,3 +10,5 @@ This is a pedagogical project with the learning goals of:
 - exploring Conway's Game of Life
 
 **Note**: although this is an application and not a package, the TOML file specifies pytest options allowing pytest to use the app's modules
+
+Images were obtained from [Irasutoya](https://www.irasutoya.com/)
