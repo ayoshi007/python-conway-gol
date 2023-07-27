@@ -10,6 +10,9 @@ from conway_gol.grid import GridOfLife
 WIDTH = 800
 CANVAS_HEIGHT = 800
 BUTTON_HEIGHT = 36
+INIT_UPDATE_FREQ = 10
+ALIVE_COLOR = 'black'
+DEAD_COLOR = 'white'
 
 button_images = {
     'Open':             Image.open('conway_gol/resources/open.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
@@ -39,14 +42,26 @@ class UIOfLife(tk.Tk):
         self.resizable(height=False, width=False)
 
     def __create_canvas(self):
-        self._canvas = tk.Canvas(self, bg='grey')
+        self._dead_color = DEAD_COLOR
+        self._alive_color = ALIVE_COLOR
+        self._canvas = tk.Canvas(self, bg=self._dead_color)
         self._canvas.config(height=CANVAS_HEIGHT, width=CANVAS_HEIGHT)
         self._canvas.pack(side=tk.TOP)
     
     def __create_menu_bar(self):
+        '''
+        File:
+            Open (Ctrl+O)
+            Save (Ctrl+S)
+            ---
+            Exit
+        '''
         pass
 
     def __create_inputs(self):
+        '''
+        Edit, Reset, Step back, Play/pause, Step forward, Open, Save, Speed, Zoom
+        '''
         pass
 
 
