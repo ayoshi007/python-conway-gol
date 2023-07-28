@@ -10,10 +10,10 @@ from PIL import Image
 from conway_gol.grid import GridOfLife
 
 PLATFORM = platform.system()
-WIDTH = 800 if PLATFORM == 'Windows' else 1600
-CANVAS_HEIGHT = 800 if PLATFORM == 'Windows' else 1600
-FONT_SIZE = 24 # if PLATFORM == 'Windows' else 36
-BUTTON_HEIGHT = 36 if PLATFORM == 'Windows' else 72
+WIDTH = 1000 if PLATFORM == 'Windows' else 1600
+CANVAS_HEIGHT = 1000 if PLATFORM == 'Windows' else 1600
+FONT_SIZE = 12 if PLATFORM == 'Windows' else 36
+BUTTON_HEIGHT = 48 if PLATFORM == 'Windows' else 72
 INIT_UPDATE_FREQ = 10
 ALIVE_COLOR = 'black'
 DEAD_COLOR = 'white'
@@ -42,17 +42,16 @@ class UIOfLife(tk.Tk):
         self._grid = GridOfLife(CANVAS_HEIGHT, WIDTH)
 
     def __set_style(self):
-        self._style = ttk.Style(self)
+        self._text_style = ttk.Style(self)
         self._font = (font.nametofont('TkDefaultFont').actual()['family'], FONT_SIZE)
         self._text_style.configure('text-style', font=self._font)
+        if PLATFORM == 'Windows':
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
     def __set_window(self, title: str, size: tuple[int, int]):
         self.title(title)
         self.geometry(f'{size[0]}x{size[1]}')
         self.resizable(height=False, width=False)
-
-        if PLATFORM == 'Windows':
-            ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
     def __create_canvas(self):
         self._dead_color = DEAD_COLOR
