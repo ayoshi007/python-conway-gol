@@ -2,6 +2,7 @@ import io
 import math
 import tkinter as tk
 from tkinter import ttk
+import ctypes
 
 from PIL import Image
 from conway_gol.grid import GridOfLife
@@ -14,7 +15,7 @@ INIT_UPDATE_FREQ = 10
 ALIVE_COLOR = 'black'
 DEAD_COLOR = 'white'
 
-button_images = {
+BUTTON_IMAGES = {
     'Open':             Image.open('conway_gol/resources/open.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
     'Save':             Image.open('conway_gol/resources/save.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
     'Play':             Image.open('conway_gol/resources/play.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
@@ -24,6 +25,8 @@ button_images = {
     'Reset':            Image.open('conway_gol/resources/reset.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
     'Edit':             Image.open('conway_gol/resources/edit.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
 }
+
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 class UIOfLife(tk.Tk):
     def __init__(self, title='Conway\'s Game of Life', size=(WIDTH, CANVAS_HEIGHT + BUTTON_HEIGHT)):
@@ -56,6 +59,16 @@ class UIOfLife(tk.Tk):
             ---
             Exit
         '''
+        self._menu_bar = tk.Menu(self)
+        self._file_menu = tk.Menu(self._menu_bar, tearoff=0)
+        self._file_menu.add_command(label='Open', accelerator='Ctrl+O')
+        self._file_menu.add_command(label='Save', accelerator='Ctrl+S')
+        self._file_menu.add_separator()
+        self._file_menu.add_command(label='Exit', command=self.destroy)
+
+        self._menu_bar.add_cascade(label='File', menu=self._file_menu)
+
+        self.config(menu=self._menu_bar)
         pass
 
     def __create_inputs(self):
@@ -64,7 +77,11 @@ class UIOfLife(tk.Tk):
         '''
         pass
 
+    def draw(self):
+        pass
+
 
 def start():
     ui = UIOfLife()
+    ui.draw()
     ui.mainloop()
