@@ -1,16 +1,19 @@
 import io
 import math
-import tkinter as tk
-from tkinter import ttk
+import platform
 import ctypes
+import tkinter as tk
+from tkinter import font
+from tkinter import ttk
 
 from PIL import Image
 from conway_gol.grid import GridOfLife
 
-
-WIDTH = 800
-CANVAS_HEIGHT = 800
-BUTTON_HEIGHT = 36
+PLATFORM = platform.system()
+WIDTH = 800 if PLATFORM == 'Windows' else 1600
+CANVAS_HEIGHT = 800 if PLATFORM == 'Windows' else 1600
+FONT_SIZE = 24 # if PLATFORM == 'Windows' else 36
+BUTTON_HEIGHT = 36 if PLATFORM == 'Windows' else 72
 INIT_UPDATE_FREQ = 10
 ALIVE_COLOR = 'black'
 DEAD_COLOR = 'white'
@@ -26,12 +29,11 @@ BUTTON_IMAGES = {
     'Edit':             Image.open('conway_gol/resources/edit.png').resize(size=(BUTTON_HEIGHT, BUTTON_HEIGHT)),
 }
 
-ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 class UIOfLife(tk.Tk):
     def __init__(self, title='Conway\'s Game of Life', size=(WIDTH, CANVAS_HEIGHT + BUTTON_HEIGHT)):
         super().__init__()
-
+        self.__set_style()
         self.__set_window(title, size)
         self.__create_canvas()
         self.__create_menu_bar()
@@ -39,10 +41,18 @@ class UIOfLife(tk.Tk):
 
         self._grid = GridOfLife(CANVAS_HEIGHT, WIDTH)
 
+    def __set_style(self):
+        self._style = ttk.Style(self)
+        self._font = (font.nametofont('TkDefaultFont').actual()['family'], FONT_SIZE)
+        self._text_style.configure('text-style', font=self._font)
+
     def __set_window(self, title: str, size: tuple[int, int]):
         self.title(title)
         self.geometry(f'{size[0]}x{size[1]}')
         self.resizable(height=False, width=False)
+
+        if PLATFORM == 'Windows':
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
     def __create_canvas(self):
         self._dead_color = DEAD_COLOR
@@ -59,8 +69,8 @@ class UIOfLife(tk.Tk):
             ---
             Exit
         '''
-        self._menu_bar = tk.Menu(self)
-        self._file_menu = tk.Menu(self._menu_bar, tearoff=0)
+        self._menu_bar = tk.Menu(self, font=self._font)
+        self._file_menu = tk.Menu(self._menu_bar, tearoff=0, font=self._font)
         self._file_menu.add_command(label='Open', accelerator='Ctrl+O')
         self._file_menu.add_command(label='Save', accelerator='Ctrl+S')
         self._file_menu.add_separator()
