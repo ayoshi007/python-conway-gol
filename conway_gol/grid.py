@@ -9,7 +9,7 @@ class GridOfLife:
         self.states = [np.full((m, n), 0, dtype=np.int8), np.empty((m, n), dtype=np.int8)]
         self.active_state_idx = 0
 
-        if np.ndarray:
+        if starting_pattern is not None:
             assert (starting_pattern.shape[0] <= m and starting_pattern.shape[1] <= n)
             self.__insert_pattern(starting_pattern)
         

@@ -10,3 +10,11 @@ This is a pedagogical project with the learning goals of:
 - exploring Conway's Game of Life
 
 **Note**: although this is an application and not a package, the TOML file specifies pytest options allowing pytest to use the app's modules
+
+## Dependencies
+- [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
+- [NumPy](https://github.com/numpy/numpy)
+- [Pillow](https://github.com/python-pillow/Pillow)
+
+
+Images were obtained from [Irasutoya](https://www.irasutoya.com/)
