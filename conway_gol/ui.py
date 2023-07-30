@@ -28,13 +28,13 @@ class UIOfLife(tk.Tk):
         self._grid = GridOfLife(self._canvas_height, self._width)
     
     def __configure_platform(self):
-        self._width = 1000 if PLATFORM == 'Windows' else 1600
-        self._canvas_height = 1000 if PLATFORM == 'Windows' else 1600
-        self._font_size = 12 if PLATFORM == 'Windows' else 36
+        self._width = 1000 if PLATFORM == 'Windows' else 1200
+        self._canvas_height = 1000 if PLATFORM == 'Windows' else 1200
+        self._font_size = 12 if PLATFORM == 'Windows' else 24
         self._button_height = 48 if PLATFORM == 'Windows' else 72
         self._alive_color = 'black'
         self._dead_color = 'white'
-        self._icon_path = f'{RESOURCE_PATH}/icon.ico' if PLATFORM == 'Windows' else f'{RESOURCE_PATH}conway_gol/resources/icon.xpm'
+        self._icon_path = f'{RESOURCE_PATH}/icon.png' # if PLATFORM == 'Windows' else f'{RESOURCE_PATH}/icon.xpm'
 
     def __get_images(self):
         self._button_images = {
@@ -57,12 +57,15 @@ class UIOfLife(tk.Tk):
         self._button_style.configure('GOL.TButton')
         self._slider_style = ttk.Style()
         self._slider_style.configure('GOL.Horizontal.TScale', padx=12, pady=4)
+        self._frame_style = ttk.Style()
+        self._frame_style.configure('GOL.TFrame')
         if PLATFORM == 'Windows':
             ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
     def __set_window(self, title: str):
         self.title(title)
-        self.iconbitmap(default=self._icon_path)
+        self._icon = tk.PhotoImage(file=f'{RESOURCE_PATH}/icon.png')
+        self.iconphoto(False, self._icon)
         self.resizable(height=False, width=False)
 
     def __create_canvas(self):
@@ -118,27 +121,36 @@ class UIOfLife(tk.Tk):
         self._save_button = ttk.Button(self._input_frame, style='GOL.TButton', image=self._button_images['Save'])
         self._save_button.pack(side=tk.LEFT)
 
-        self._speed_slider_frame = ttk.Frame(self._input_frame, padding=(12, 0))
+
+        self._speed_slider_frame = ttk.Frame(self._input_frame, padding=(16, 0), style='GOL.TFrame')
 
         self._speed_value = INIT_UPDATE_FREQ
-        self._speed_label = ttk.Label(self._speed_slider_frame, text=f'Speed: {self._speed_value}')
-        self._speed_label.pack(side=tk.TOP)
+        self._speed_label_text = ttk.Label(self._speed_slider_frame, text='Speed: ')
+        self._speed_label = ttk.Label(self._speed_slider_frame, text=f'{self._speed_value}/s', width=5)
+        self._speed_label_text.grid(row=0, column=0)
+        self._speed_label.grid(row=0, column=1)
+        self._speed_label.grid_propagate(0)
         self._speed_slider = ttk.Scale(self._speed_slider_frame, style='GOL.Horizontal.TScale', from_=1, to_=100, variable=self._speed_value, command=self.__change_speed)
         self._speed_slider.set(self._speed_value)
-        self._speed_slider.pack(side=tk.BOTTOM)
+        self._speed_slider.grid(row=1, column=0, columnspan=2, sticky=tk.W)
 
-        self._speed_slider_frame.pack(side=tk.LEFT)
+        self._speed_slider_frame.pack(side=tk.LEFT, fill='x')
 
-        self._zoom_slider_frame = ttk.Frame(self._input_frame, padding=(12, 0))
+
+        self._zoom_slider_frame = ttk.Frame(self._input_frame, padding=(16, 0), style='GOL.TFrame')
 
         self._zoom_value = 1.0
-        self._zoom_label = ttk.Label(self._zoom_slider_frame, text=f'Zoom: {self._zoom_value}')
-        self._zoom_label.pack(side=tk.TOP)
+        self._zoom_label_text = ttk.Label(self._zoom_slider_frame, text='Zoom: ')
+        self._zoom_label = ttk.Label(self._zoom_slider_frame, text=f'{self._zoom_value}x', width=5)
+        self._zoom_label_text.grid(row=0, column=0)
+        self._zoom_label.grid(row=0, column=1)
+        self._zoom_label.grid_propagate(0)
         self._zoom_slider = ttk.Scale(self._zoom_slider_frame, style='GOL.Horizontal.TScale', from_=0.01, to_=10, variable=self._zoom_value, command=self.__zoom)
         self._zoom_slider.set(self._zoom_value)
-        self._zoom_slider.pack(side=tk.BOTTOM)
+        self._zoom_slider.grid(row=1, column=0, columnspan=2, sticky=tk.W)
 
-        self._zoom_slider_frame.pack(side=tk.LEFT)
+        self._zoom_slider_frame.pack(side=tk.LEFT, fill='x')
+
 
         self._input_frame.pack(fill='x')
 
@@ -151,11 +163,11 @@ class UIOfLife(tk.Tk):
         self._is_playing = not self._is_playing
 
     def __zoom(self, v):
-        self._zoom_label.config(text=f'Zoom: {round(float(v), ndigits=1)}')
+        self._zoom_label.config(text=f'{round(float(v), ndigits=2)}x')
     
     def __change_speed(self, v):
         self._speed_value = round(float(v))
-        self._speed_label.config(text=f'Speed: {self._speed_value}')
+        self._speed_label.config(text=f'{self._speed_value}/s')
 
     def draw(self):
         pass
