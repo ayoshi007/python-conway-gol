@@ -34,7 +34,7 @@ class UIOfLife(tk.Tk):
         self._button_height = 48 if PLATFORM == 'Windows' else 72
         self._alive_color = 'black'
         self._dead_color = 'white'
-        self._icon_path = f'{RESOURCE_PATH}/icon.png' # if PLATFORM == 'Windows' else f'{RESOURCE_PATH}/icon.xpm'
+        self._icon_path = f'{RESOURCE_PATH}/icon.png'
 
     def __get_images(self):
         self._button_images = {
