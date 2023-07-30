@@ -141,11 +141,11 @@ class UIOfLife(tk.Tk):
 
         self._zoom_value = 1.0
         self._zoom_label_text = ttk.Label(self._zoom_slider_frame, text='Zoom: ')
-        self._zoom_label = ttk.Label(self._zoom_slider_frame, text=f'{self._zoom_value}x', width=5)
+        self._zoom_label = ttk.Label(self._zoom_slider_frame, text=f'{self._zoom_value}x', width=6)
         self._zoom_label_text.grid(row=0, column=0)
         self._zoom_label.grid(row=0, column=1)
         self._zoom_label.grid_propagate(0)
-        self._zoom_slider = ttk.Scale(self._zoom_slider_frame, style='GOL.Horizontal.TScale', from_=0.01, to_=10, variable=self._zoom_value, command=self.__zoom)
+        self._zoom_slider = ttk.Scale(self._zoom_slider_frame, style='GOL.Horizontal.TScale', from_=1, to_=100, variable=self._zoom_value, command=self.__zoom)
         self._zoom_slider.set(self._zoom_value)
         self._zoom_slider.grid(row=1, column=0, columnspan=2, sticky=tk.W)
 
